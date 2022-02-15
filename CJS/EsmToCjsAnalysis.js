@@ -9,9 +9,9 @@ const defaultFunc = await import('./esm/index.js');
 
 // console.log(defaultFunc); // Promise { <pending> }
 
-(async () => {
-  const defaultFunc = import('./esm/index.js');
+const defaultFunc = import('./esm/index.js');
 
+(async () => {
   /*
   console.log(await defaultFunc);
 

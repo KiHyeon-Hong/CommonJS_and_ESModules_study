@@ -1,9 +1,5 @@
 ## CommonJS and ESModules study
 
-## 환경
-
-- node v16.13.1를 기준으로 한다.
-
 ## CommonJS와 ESModules
 
 ### CommonJS
@@ -12,9 +8,9 @@
 
 - Top-Level Await
 
-##
+## CommonJS
 
-###
+### CommonJS에서 CommonJS 불러오기 주의할 점
 
 ```javascript
 //
@@ -39,7 +35,7 @@ This is default...
 TypeError: namedSyncFunc is not a function
 ```
 
-###
+### CommonJS에서 CommonJS 불러오기
 
 ```javascript
 //
@@ -83,7 +79,26 @@ This is default...
 This is async...
 ```
 
-###
+####
+
+```javascript
+const { namedAsyncFunc, namedSyncFunc } = require('./cjs/named/index.js');
+const defaultFunc = require('./cjs/default/index.js');
+
+(async () => {
+  console.log(namedSyncFunc());
+  console.log(await namedAsyncFunc());
+  console.log(defaultFunc());
+})();
+```
+
+```bash
+This is sync...
+This is async...
+This is default...
+```
+
+### CommonJS에서 ESModules 불러오기
 
 ```javascript
 //
@@ -123,7 +138,7 @@ This is async...
 This is default...
 ```
 
-###
+### CommonJS에서 ESModules 불러오기 주의할 점
 
 ```javascript
 //
@@ -136,7 +151,7 @@ const defaultFunc = await import('./esm/index.js');
 SyntaxError: await is only valid in async functions and the top level bodies of modules
 ```
 
-###
+### CommonJS에서 불러온 ESModules 타입
 
 ```javascript
 const defaultFunc = import('./esm/index.js');
@@ -147,7 +162,7 @@ console.log(defaultFunc);
 Promise { <pending> }
 ```
 
-###
+### CommonJS에서 불러온 ESModules 타입
 
 ```javascript
 (async () => {
@@ -164,12 +179,12 @@ Promise { <pending> }
   }
 ```
 
-###
+### CommonJS에서 ESModules 다른 방식으로 불러오기
 
 ```javascript
-(async () => {
-  const defaultFunc = import('./esm/index.js');
+const defaultFunc = import('./esm/index.js');
 
+(async () => {
   console.log((await defaultFunc).namedSyncFunc());
   console.log(await (await defaultFunc).namedAsyncFunc());
   console.log((await defaultFunc).default());
@@ -182,9 +197,9 @@ This is async...
 This is default...
 ```
 
-##
+## ESModules
 
-###
+### ESModules에서 ESModules 불러오기
 
 ```javascript
 //
@@ -223,7 +238,7 @@ This is async...
 This is default...
 ```
 
-###
+### ESModules에서 CommonJS 불러오기
 
 ```javascript
 //
@@ -277,7 +292,7 @@ This is sync...
 This is async...
 ```
 
-###
+### ESModules에서 불러온 ESModules 타입
 
 ```javascript
 //
@@ -314,6 +329,79 @@ console.log(defaultFunc); // [Function: defaultFunc]
 [Function: namedSyncFunc]
 [AsyncFunction: namedAsyncFunc]
 [Function: defaultFunc]
+```
+
+### 다양한 방법으로 ESModules 불러오기
+
+####
+
+```javascript
+import { namedAsyncFunc, namedSyncFunc } from './esm/index.js';
+import defaultFunc from './esm/index.js';
+
+console.log(namedSyncFunc); // [Function: namedSyncFunc]
+console.log(namedAsyncFunc); // [AsyncFunction: namedAsyncFunc]
+console.log(defaultFunc); // [Function: defaultFunc]
+```
+
+```bash
+[Function: namedSyncFunc]
+[AsyncFunction: namedAsyncFunc]
+[Function: defaultFunc]
+```
+
+####
+
+```javascript
+import defaultFunc, { namedSyncFunc, namedAsyncFunc } from './esm/index.js';
+
+console.log(namedSyncFunc());
+console.log(await namedAsyncFunc());
+console.log(defaultFunc());
+```
+
+```bash
+This is sync...
+This is async...
+This is default...
+```
+
+####
+
+```javascript
+import { namedSyncFunc as sf, namedAsyncFunc as af, default as df } from './esm/index.js';
+
+console.log(sf());
+console.log(await af());
+console.log(df());
+```
+
+```bash
+This is sync...
+This is async...
+This is default...
+```
+
+####
+
+```javascript
+import * as f from './esm/index.js';
+console.log(f);
+
+console.log(f.namedSyncFunc());
+console.log(await f.namedAsyncFunc());
+console.log(f.default());
+```
+
+```bash
+[Module: null prototype] {
+  default: [Function: defaultFunc],
+  namedAsyncFunc: [AsyncFunction: namedAsyncFunc],
+  namedSyncFunc: [Function: namedSyncFunc]
+}
+This is sync...
+This is async...
+This is default...
 ```
 
 ## 참고자료
