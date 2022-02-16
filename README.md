@@ -1,12 +1,45 @@
 ## CommonJS and ESModules study
 
-## CommonJS와 ESModules
+- Node.js에는 크게 두 종류의 스크립트가 있으며, CommonJS와 EXModules이다.
+- 각각의 스크립트는 기본적으로 전혀 다르므로, npm에서 어떠한 package를 지원하는지에 따라 import, export 방법이 다르다.
+- 구체적인 설명은 제외하고 node v16.13.1 LTS 기준으로 서로 간의 import 방법을 정리한다.
+
+## CommonJS와 ESModules 기초 설명
 
 ### CommonJS
 
+- 모듈을 내보내기 위해 module.exports를 이용하며, 모듈을 받기 위해 require를 이용한다.
+- Top-Level Await를 지원하지 않아, 비동기적인 메소드를 실행하기 위해 async로 감싸주어야 하며, 이는 await로 동기적으로 수행할 수 있다.
+- npm init의 기본 값이다.
+
+```javascript
+module.exports = 변수명; // default export
+module.exports.변수명 = 변수명; // named export
+
+const 변수명 = require('파일경로'); // default import
+const { 변수명 } = require('파일경로'); // named import
+```
+
 ### ESModules
 
-- Top-Level Await
+- 모듈을 내보내기 위해 export를 이용하며, 모듈을 받기 위해 import를 이용한다.
+- Top-Level Await를 지원한다.
+- npm init의 기본 값이 아니므로, ESModules를 위해 package.json의 "type"을 추가하여야 한다.
+
+```json
+{
+  ...
+  "type": "module"
+}
+```
+
+```javascript
+export default 변수명;  //default export
+export 변수명;  // named export
+
+import 변수명 from '파일경로';  // default import
+import {변수명} from '파일경로';  // named import
+```
 
 ## CommonJS
 
