@@ -1,6 +1,6 @@
 ## CommonJS and ESModules study
 
-- Node.js에는 크게 두 종류의 스크립트가 있으며, CommonJS와 EXModules이다.
+- Node.js에는 크게 두 종류의 스크립트가 있으며, CommonJS와 ESModules이다.
 - 각각의 스크립트는 기본적으로 전혀 다르므로, npm에서 어떠한 package를 지원하는지에 따라 import, export 방법이 다르다.
 - 구체적인 설명은 제외하고 node v16.13.1 LTS 기준으로 서로 간의 import 방법을 정리한다.
 
